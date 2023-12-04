@@ -16,15 +16,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -44,10 +41,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.ibrahim.enimobile.HomeViewModel
 import com.ibrahim.enimobile.data.models.client.MobileClientDTO
 import com.ibrahim.enimobile.data.models.client.MobileClientDTOs
 import com.ibrahim.enimobile.ui.screens.home.composables.ClientItem
 import com.ibrahim.enimobile.ui.screens.home.composables.FilterTree
+import com.ibrahim.enimobile.ui.screens.home.composables.Measurements
 
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel, navHostController: NavHostController) {
@@ -70,94 +69,80 @@ fun HomeScreen(homeViewModel: HomeViewModel, navHostController: NavHostControlle
     }
     if (homeViewModel.isLoading.collectAsState().value) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
     } else {
 
-        var isFilterEnabled by remember {
-            mutableStateOf(false)
-        }
-        Column {
 
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .background(Color.Blue.copy(0.5f))
-                    .padding(10.dp)
-            ) {
-                Row(
+        Box {
+            Column {
+
+                Column(
                     Modifier
                         .fillMaxWidth()
-                        .clickable { isEnabled = !isEnabled },
-                    horizontalArrangement = Arrangement.End
+                        .background(Color.Blue.copy(0.5f))
+                        .padding(10.dp)
                 ) {
-                    Text(text = " ${filteredItems?.size ?: clients.mobileClientDTOs?.size ?: 0}/${clients.mobileClientDTOs?.size ?: 0} ")
-                    Icon(
-                        if (isEnabled) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                        null
-                    )
-                }
-                if (isEnabled) {
-                    Row(Modifier.padding(10.dp)) {
-                        TextField(
-                            value = searchText,
-                            onValueChange = { searchText = it },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                                .clip(MaterialTheme.shapes.medium)
-                                .background(MaterialTheme.colorScheme.background)
-                                .padding(8.dp),
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary
-                                )
-                            },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
-                            ),
-                            placeholder = { Text(text = "Search...") },
-                            colors = TextFieldDefaults.textFieldColors(
-                                containerColor = Color.Transparent,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                textColor = MaterialTheme.colorScheme.onSurface
-                            )
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable { isEnabled = !isEnabled },
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(text = " ${filteredItems?.size ?: clients.mobileClientDTOs?.size ?: 0}/${clients.mobileClientDTOs?.size ?: 0} ")
+                        Icon(
+                            if (isEnabled) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                            null
                         )
-                        IconButton(onClick = {
-                            isFilterEnabled = !isFilterEnabled
-                        }
-                        ) {
-                            Icon(
-                                if (!isFilterEnabled) Icons.Default.MoreVert else Icons.Default.Clear,
-                                null
-                            )
-                        }
                     }
-                    if (isFilterEnabled)
+                    if (isEnabled) {
+                        Row(Modifier.padding(10.dp)) {
+                            TextField(
+                                value = searchText,
+                                onValueChange = { searchText = it },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .clip(MaterialTheme.shapes.medium)
+                                    .background(MaterialTheme.colorScheme.background)
+                                    .padding(8.dp),
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
+                                ),
+                                placeholder = { Text(text = "Search...") },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    textColor = MaterialTheme.colorScheme.onSurface
+                                )
+                            )
+
+                        }
                         FilterTree()
-                } else {
+                    }
+                }
 
+                if (filteredItems == null) filteredItems = clients.mobileClientDTOs
+                LazyColumn(
+                    Modifier.fillMaxSize()
+                ) {
+                    items(filteredItems ?: emptyList()) {
+                        ClientItem(item = it ?: MobileClientDTO(""), homeViewModel)
+                    }
                 }
             }
 
-
-
-
-
-            if (filteredItems == null) filteredItems = clients.mobileClientDTOs
-            LazyColumn(
-                Modifier.fillMaxSize()
-            ) {
-                items(filteredItems ?: emptyList()) {
-                    ClientItem(item = it ?: MobileClientDTO(""))
-                }
-            }
+            Measurements(Modifier.align(Alignment.BottomCenter), homeViewModel)
         }
 
     }

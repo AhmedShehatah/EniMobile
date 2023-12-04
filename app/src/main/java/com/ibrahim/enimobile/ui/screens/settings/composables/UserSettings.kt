@@ -1,5 +1,6 @@
 package com.ibrahim.enimobile.ui.screens.settings.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,27 +17,29 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.ibrahim.enimobile.ui.screens.home.HomeViewModel
+import com.ibrahim.enimobile.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserSettingsCard(
-    modifier: Modifier = Modifier
-        .padding(30.dp),
-    homeViewModel: HomeViewModel
+    modifier: Modifier = Modifier.padding(30.dp), homeViewModel: HomeViewModel
 ) {
     var userName by remember {
-        mutableStateOf("")
+        mutableStateOf(homeViewModel.username.value)
     }
     var password by remember {
-        mutableStateOf("")
+        mutableStateOf(homeViewModel.password.value)
     }
     Card(
         Modifier
@@ -68,12 +71,18 @@ fun UserSettingsCard(
                     Text(text = "Password")
                 },
                 value = password, onValueChange = { password = it },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done, keyboardType = KeyboardType.Password
+                ),
+                visualTransformation = PasswordVisualTransformation(),
                 leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = "Password") },
-            )
+
+                )
             Spacer(modifier = Modifier.height(20.dp))
+            val context = LocalContext.current
             Button(onClick = {
-                homeViewModel.login(userName, password)
+                homeViewModel.saveUserNameAndPassword(userName, password)
+                Toast.makeText(context, "Saved Successfully", Toast.LENGTH_SHORT).show()
             }) {
                 Text(text = "Save Changes")
             }

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ibrahim.enimobile.data.models.client.Measurement
+import com.ibrahim.enimobile.data.models.measurementdtos.Datapoint
 import com.ibrahim.enimobile.data.models.structure.AutomationUnit
 import com.ibrahim.enimobile.data.models.structure.DataUnit
 import java.util.Collections
@@ -11,7 +12,6 @@ import java.util.Collections
 class Converters {
 
     companion object {
-
         @TypeConverter
         @JvmStatic
         fun fromStringToList(data: String?): List<Measurement> {
@@ -92,6 +92,22 @@ class Converters {
         fun fromIntListToString(myObjects: List<Int>?): String {
             val gson = Gson()
             return gson.toJson(myObjects)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromDatapoint(datapoint: Datapoint?): String? {
+            return Gson().toJson(datapoint)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toDatapoint(datapointString: String?): Datapoint? {
+            if (datapointString == null) {
+                return null
+            }
+            val type = object : TypeToken<Datapoint>() {}.type
+            return Gson().fromJson(datapointString, type)
         }
     }
 

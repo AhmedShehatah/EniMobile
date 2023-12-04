@@ -3,21 +3,26 @@ package com.ibrahim.enimobile.data.models.client
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Entity
-@Serializable
 data class Measurement(
-    @SerialName("evalType")
     val evalType: String? = null,
     @PrimaryKey
-    @SerialName("id")
     val id: String,
-    @SerialName("lastDate")
     val lastDate: String? = null,
-    @SerialName("lastValue")
-    val lastValue: Int? = null,
-    @SerialName("unit")
+    val lastValue: Double? = null,
     val unit: String? = null
-)
+) {
+    val formattedLastDate: String?
+        get() {
+            // Check if lastDate is not null and not empty before formatting
+            return lastDate?.takeIf { it.isNotEmpty() }?.let {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val date = inputFormat.parse(it)
+                outputFormat.format(date)
+            }
+        }
+}

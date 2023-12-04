@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ibrahim.enimobile.data.models.client.Measurement
 import com.ibrahim.enimobile.data.models.client.MobileClientDTO
+import com.ibrahim.enimobile.data.models.measurementdtos.MobileMeasurementValueDTODB
 import com.ibrahim.enimobile.data.models.structure.StructureNode
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +19,7 @@ interface AppDao {
     @Query("SELECT * FROM MobileClientDTO")
     fun getAllClients(): Flow<List<MobileClientDTO>>
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addStructureNode(node: StructureNode): Long
 
@@ -25,8 +27,11 @@ interface AppDao {
     fun getAllStructureNodes(): Flow<List<StructureNode>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addMeasurement(measurement: Measurement): Long
+    suspend fun addMeasurement(measurement: MobileMeasurementValueDTODB): Long
 
-    @Query("SELECT * FROM Measurement")
-    fun getAllMeasurements(): Flow<List<Measurement>>
+    @Query("SELECT * FROM MobileMeasurementValueDTODB")
+    fun getAllMeasurements(): Flow<List<MobileMeasurementValueDTODB>>
+
+    @Query("Delete From mobilemeasurementvaluedtodb where id=:id")
+    suspend fun deleteMeasurement(id: Int)
 }

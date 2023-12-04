@@ -14,7 +14,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.ibrahim.enimobile.ui.screens.home.HomeViewModel
 import com.ibrahim.enimobile.ui.screens.home.composables.AppTopBar
 import com.ibrahim.enimobile.ui.theme.EniMobileTheme
 import com.ibrahim.enimobile.utils.navigation.SetupNabGraph
@@ -29,7 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             navHostController = rememberNavController()
             LaunchedEffect(key1 = true) {
-                viewModel.getClients()
+                viewModel.loginAndGetClient()
 
             }
             EniMobileTheme {

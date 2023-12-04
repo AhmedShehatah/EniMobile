@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ibrahim.enimobile.ui.screens.home.HomeScreen
-import com.ibrahim.enimobile.ui.screens.home.HomeViewModel
+import com.ibrahim.enimobile.HomeViewModel
 import com.ibrahim.enimobile.ui.screens.settings.SettingsScreen
 
 @Composable

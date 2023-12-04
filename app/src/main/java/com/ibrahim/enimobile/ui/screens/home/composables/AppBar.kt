@@ -3,7 +3,6 @@
 package com.ibrahim.enimobile.ui.screens.home.composables
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Refresh
@@ -21,7 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
-import com.ibrahim.enimobile.ui.screens.home.HomeViewModel
+import com.ibrahim.enimobile.HomeViewModel
 import com.ibrahim.enimobile.utils.navigation.Screen
 
 @ExperimentalMaterial3Api
@@ -52,7 +51,7 @@ fun AppTopBar(viewModel: HomeViewModel, navHostController: NavHostController) {
             }, actions = {
                 if (!isSettings) {
                     IconButton(onClick = {
-                        viewModel.getClients()
+                        viewModel.loginAndGetClient()
                     }) {
                         Icon(Icons.Outlined.Refresh, null)
                     }

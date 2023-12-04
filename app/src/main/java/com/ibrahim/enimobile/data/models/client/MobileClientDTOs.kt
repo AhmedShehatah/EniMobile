@@ -1,11 +1,9 @@
 package com.ibrahim.enimobile.data.models.client
 
+import com.squareup.moshi.Json
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class MobileClientDTOs(
-    @SerialName("mobileClientDTOs")
+    @Json(name = "mobileClientDTOs")
     val mobileClientDTOs: List<MobileClientDTO?>? = null
 )

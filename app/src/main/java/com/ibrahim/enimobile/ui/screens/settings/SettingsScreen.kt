@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.ibrahim.enimobile.ui.screens.home.HomeViewModel
+import com.ibrahim.enimobile.HomeViewModel
+import com.ibrahim.enimobile.ui.screens.settings.composables.Information
+import com.ibrahim.enimobile.ui.screens.settings.composables.LanguageSettings
 import com.ibrahim.enimobile.ui.screens.settings.composables.ServerSettings
 import com.ibrahim.enimobile.ui.screens.settings.composables.UserSettingsCard
 
@@ -20,6 +22,10 @@ fun SettingsScreen(navHostController: NavHostController, homeViewModel: HomeView
         UserSettingsCard(homeViewModel = homeViewModel)
         Spacer(modifier = Modifier.height(20.dp))
         ServerSettings(homeViewModel)
+        Spacer(modifier = Modifier.height(20.dp))
+        LanguageSettings()
+        Spacer(modifier = Modifier.height(20.dp))
+        Information()
     }
 
 

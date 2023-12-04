@@ -27,7 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.ibrahim.enimobile.ui.screens.home.HomeViewModel
+import com.ibrahim.enimobile.HomeViewModel
 
 @Composable
 fun ServerSettings(homeViewModel: HomeViewModel) {

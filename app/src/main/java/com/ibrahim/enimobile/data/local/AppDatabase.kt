@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ibrahim.enimobile.data.models.client.Measurement
 import com.ibrahim.enimobile.data.models.client.MobileClientDTO
+import com.ibrahim.enimobile.data.models.measurementdtos.MobileMeasurementValueDTO
+import com.ibrahim.enimobile.data.models.measurementdtos.MobileMeasurementValueDTODB
 import com.ibrahim.enimobile.data.models.structure.StructureNode
 import com.ibrahim.enimobile.utils.Converters
 
@@ -14,9 +16,9 @@ import com.ibrahim.enimobile.utils.Converters
     entities = [
         MobileClientDTO::class,
         StructureNode::class,
-        Measurement::class,
+        MobileMeasurementValueDTODB::class,
     ],
-    version = 3,
+    version = 7,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -34,12 +36,8 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                "appDatabase.db"
-            ).fallbackToDestructiveMigration()
-                .build()
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
+            context.applicationContext, AppDatabase::class.java, "appDatabase.db"
+        ).fallbackToDestructiveMigration().build()
     }
 }
