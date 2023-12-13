@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ibrahim.enimobile"
+    namespace = "com.enervision.enimobile"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ibrahim.enimobile"
+        applicationId = "com.enervision.enimobile"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
