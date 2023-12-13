@@ -111,7 +111,8 @@ fun HomeScreen(homeViewModel: HomeViewModel, navHostController: NavHostControlle
                             )
                         }
                         if (isEnabled) {
-                            Row(Modifier.padding(10.dp)) {
+                            Row(Modifier.background(Color.Gray)
+                                .padding(10.dp)) {
                                 TextField(
                                     value = searchText,
                                     onValueChange = { searchText = it },

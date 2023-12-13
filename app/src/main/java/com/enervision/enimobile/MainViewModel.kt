@@ -46,12 +46,11 @@ class HomeViewModel @Inject constructor(
         isLoading.value = true
         viewModelScope.launch {
             getUserNameAndPassword()
-            val user = username.value.ifBlank { "ebrahem" }
-            val pass = password.value.ifBlank { "Pp@Ee" }
+
             clientRepo.login(
                 LoginRequest(
                     session = Session(
-                        userName = user, password = pass
+                        userName = username.value, password = password.value
                     )
                 )
             ).catch {
